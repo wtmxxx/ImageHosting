@@ -1,10 +1,5 @@
 {
   "rewrites": [
     { "source": "/randomphotos", "destination": "/api/randomphotos.js" }
-  ],
-
-  "crons": [{
-    "path": "/api/updatejson",
-    "schedule": "0 10 * * *"
-  }]
+  ]
 }
