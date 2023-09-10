@@ -1,4 +1,4 @@
-const axios = require('axios');
+const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
@@ -23,16 +23,19 @@ if (!fs.existsSync(randomphotosDirectory)) {
 const jsonFilePath = path.join(randomphotosDirectory, 'randomphotos.json');
 
 // 发起 HTTP GET 请求获取数据
-axios.get(apiUrl)
-  .then((response) => {
-    // 获取响应数据
-    const responseData = response.data;
+http.get(apiUrl, (response) => {
+  let responseData = '';
 
+  response.on('data', (chunk) => {
+    responseData += chunk;
+  });
+
+  response.on('end', () => {
     // 将数据写入 JSON 文件
-    fs.writeFileSync(jsonFilePath, JSON.stringify(responseData, null, 2), 'utf-8');
+    fs.writeFileSync(jsonFilePath, responseData, 'utf-8');
 
     console.log('数据已更新并写入到 randomphotos.json 文件中');
-  })
-  .catch((error) => {
-    console.error('获取数据时发生错误:', error);
   });
+}).on('error', (error) => {
+  console.error('获取数据时发生错误:', error);
+});
