@@ -1,4 +1,4 @@
-const http = require('http');
+const https = require('https'); // 使用 https 模块
 const fs = require('fs');
 const path = require('path');
 
@@ -22,8 +22,8 @@ if (!fs.existsSync(randomphotosDirectory)) {
 // 定义要写入的 JSON 文件路径
 const jsonFilePath = path.join(randomphotosDirectory, 'randomphotos.json');
 
-// 发起 HTTP GET 请求获取数据
-http.get(apiUrl, (response) => {
+// 发起 HTTPS GET 请求获取数据（注意这里使用 https 模块）
+https.get(apiUrl, (response) => {
   let responseData = '';
 
   response.on('data', (chunk) => {
