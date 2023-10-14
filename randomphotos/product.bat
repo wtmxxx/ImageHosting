@@ -10,9 +10,16 @@ echo [ > "%jsonFile%"
 
 set "firstFile=1"
 
-rem Loop through files in the 'gallery' folder
+rem Create an array to store shuffled filenames
+set "fileList="
 for %%f in ("%folder%\*.*") do (
     set "filename=%%~nxf"
+    set "fileList[!random!]=!filename!"
+)
+
+rem Loop through shuffled filenames
+for /f "tokens=2 delims==" %%a in ('set fileList[') do (
+    set "filename=%%a"
     if !firstFile!==1 (
         set "firstFile=0"
     ) else (
